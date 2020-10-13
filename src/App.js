@@ -118,7 +118,7 @@ function App() {
 
   return (
     <div className="main">
-      <Navbar style={{position: 'fixed'}} collapseOnSelect expand="lg">
+      <Navbar className="navbar" collapseOnSelect expand="lg">
         <Navbar.Brand href="/">
           <img
             src="https://d2k1ftgv7pobq7.cloudfront.net/meta/u/res/images/brand-assets/Logos/0099ec3754bf473d2bbf317204ab6fea/trello-logo-blue.png"
@@ -140,7 +140,7 @@ function App() {
             <Nav.Link href="/">About Us</Nav.Link>
 
             <img
-              height="40px"
+              width="40px"
               src="https://img.pngio.com/simple-user-icon-transparent-png-stickpng-user-logo-png-2240_2240.png"
               alt="img"
             />

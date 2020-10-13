@@ -3,13 +3,18 @@
   min-height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: fixed;
+  background-attachment: fixed;
+  overflow: scroll;
 }
 .App {
   display: flex;
   margin-top: 50px;
 }
 
+.navbar {
+  position: 'fixed';
+  width: '99%';
+}
 .App .column,
 .add-column {
   background-color: #cecece;
@@ -56,4 +61,15 @@
   margin-left: 20px;
   margin-right: 10px;
   height: 30px;
+}
+
+@media (max-width: 450px) {
+  .App {
+    display: contents;
+    margin-top: 100px;
+  }
+  .App .column,
+  .add-column {
+    margin-top: 30px;
+  }
 }
