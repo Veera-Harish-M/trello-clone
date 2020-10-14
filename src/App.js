@@ -5,26 +5,35 @@ import _ from 'lodash';
 import {v4} from 'uuid';
 import {Button, Navbar, Nav} from 'react-bootstrap';
 import {GiTrashCan} from 'react-icons/gi';
+import {TiTick} from 'react-icons/ti';
 function App() {
   const [text, setText] = useState('');
   const [columnName, setColumnName] = useState('');
   const [rendering, setRendering] = useState(false);
+  const [title, setTitle] = useState('');
+  const [cardName, setCardName] = useState('');
 
   const [state, setState] = useState({
     Todo: {
       addOpen: 'none',
       title: 'Todo',
+      name: 'Todo',
       items: [],
+      edit: true,
     },
     Done: {
       addOpen: 'none',
       title: 'Done',
+      name: 'Done',
       items: [],
+      edit: true,
     },
     Doing: {
       addOpen: 'none',
       title: 'Doing',
+      name: 'Doing',
       items: [],
+      edit: true,
     },
   });
 
@@ -65,11 +74,13 @@ function App() {
       return {
         ...prev,
         [e]: {
+          ...prev[e],
           title: e,
           items: [
             {
               id: v4(),
               name: text,
+              editItem: true,
             },
             ...prev[e].items,
           ],
@@ -100,7 +111,9 @@ function App() {
         ...prev,
         [columnName]: {
           title: columnName,
+          name: columnName,
           items: [],
+          edit: true,
           addOpen: 'none',
         },
       };
@@ -109,13 +122,72 @@ function App() {
     setColumnName('');
   };
 
-  const removeItem = (title, index) => {
+  const editTitle = (e) => {
+    console.log('here');
+    setState((prev) => {
+      return {
+        ...prev,
+        [e]: {
+          ...prev[e],
+          edit: false,
+        },
+      };
+    });
+  };
+
+  const changeEditTitle = (e) => {
+    if (title === '') {
+      setTitle('');
+      setState((prev) => {
+        return {
+          ...prev,
+          [e]: {
+            ...prev[e],
+            edit: true,
+          },
+        };
+      });
+      return;
+    }
+
+    setState((prev) => {
+      return {
+        ...prev,
+        [e]: {
+          ...prev[e],
+          name: title,
+          edit: true,
+        },
+      };
+    });
+
+    setTitle('');
+  };
+
+  const changeEditCardname = (titleparam, index) => {
+    if (cardName === '') {
+      state[titleparam].items[index].editItem = true;
+      setRendering(!rendering);
+      return;
+    }
+    state[titleparam].items[index].name = cardName;
+    state[titleparam].items[index].editItem = true;
+    setCardName('');
+    setRendering(!rendering);
+  };
+
+  const editCardName = (titleparam, index) => {
+    state[titleparam].items[index].editItem = false;
+    setRendering(!rendering);
+  };
+
+  const removeItem = (titleparam, index) => {
     if (index > -1) {
-      state[title].items.splice(index, 1);
+      state[titleparam].items.splice(index, 1);
       setRendering(!rendering);
     }
   };
-
+  console.log(state);
   return (
     <div className="main">
       <Navbar className="navbar-top" collapseOnSelect expand="lg">
@@ -154,7 +226,26 @@ function App() {
             return (
               <div key={key} className={'column'}>
                 <h3>
-                  {data.title}
+                  <input
+                    className="title-input"
+                    type="text"
+                    defaultValue={data.name}
+                    onChange={(e) => setTitle(e.target.value)}
+                    style={!data.edit ? {color: 'red'} : {}}
+                    onDoubleClick={() => {
+                      editTitle(data.title);
+                    }}
+                    readOnly={data.edit}
+                  />
+                  {!data.edit && (
+                    <TiTick
+                      style={{cursor: 'pointer'}}
+                      size={20}
+                      onClick={() => {
+                        changeEditTitle(data.title);
+                      }}
+                    />
+                  )}
                   <span
                     style={{
                       float: 'right',
@@ -211,7 +302,35 @@ function App() {
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
                                   >
-                                    {el.name}
+                                    <textarea
+                                      className="card-input"
+                                      type="text"
+                                      wrap="soft"
+                                      defaultValue={el.name}
+                                      onChange={(e) =>
+                                        setCardName(e.target.value)
+                                      }
+                                      style={!el.editItem ? {color: 'red'} : {}}
+                                      onDoubleClick={() => {
+                                        editCardName(data.title, index);
+                                      }}
+                                      readOnly={el.editItem}
+                                    />
+                                    {!el.editItem && (
+                                      <TiTick
+                                        style={{
+                                          float: 'right',
+                                          marginTop: '2px',
+                                          cursor: 'pointer',
+                                          color: 'green',
+                                        }}
+                                        size={20}
+                                        onClick={() => {
+                                          changeEditCardname(data.title, index);
+                                        }}
+                                      />
+                                    )}
+
                                     <span
                                       style={{
                                         float: 'right',

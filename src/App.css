@@ -64,6 +64,23 @@
   height: 30px;
 }
 
+.title-input {
+  background-color: #cecece;
+  border: none;
+}
+
+.title-input:focus {
+  outline: none;
+}
+.card-input {
+  background-color: white;
+  border: none;
+}
+
+.card-input:focus {
+  outline: none;
+}
+
 @media (max-width: 450px) {
   .App {
     display: contents;
