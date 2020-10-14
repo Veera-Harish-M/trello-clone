@@ -4,7 +4,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import _ from 'lodash';
 import {v4} from 'uuid';
 import {Button, Navbar, Nav} from 'react-bootstrap';
-
+import {GiTrashCan} from 'react-icons/gi';
 function App() {
   const [text, setText] = useState('');
   const [columnName, setColumnName] = useState('');
@@ -118,7 +118,7 @@ function App() {
 
   return (
     <div className="main">
-      <Navbar className="navbar" collapseOnSelect expand="lg">
+      <Navbar className="navbar-top" collapseOnSelect expand="lg">
         <Navbar.Brand href="/">
           <img
             src="https://d2k1ftgv7pobq7.cloudfront.net/meta/u/res/images/brand-assets/Logos/0099ec3754bf473d2bbf317204ab6fea/trello-logo-blue.png"
@@ -215,18 +215,18 @@ function App() {
                                     <span
                                       style={{
                                         float: 'right',
-                                        paddingRight: '20px',
+                                        paddingRight: '7px',
                                         fontSize: '18px',
                                         paddingTop: '5px',
                                         cursor: 'pointer',
-                                        marginTop: '-7px',
+                                        marginTop: '-10px',
                                         color: 'red',
                                       }}
                                       onClick={() => {
                                         removeItem(data.title, index);
                                       }}
                                     >
-                                      <b>X</b>
+                                      <GiTrashCan />
                                     </span>
                                   </div>
                                 );
